@@ -1,2 +1,0 @@
-# MakeSPP
-makespp stuff
