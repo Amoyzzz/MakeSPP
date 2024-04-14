@@ -283,7 +283,7 @@ async function clearPath() {
     for(var i = path.length - 1; i > -1; i--){
         var x = path[i][0];
         var y = path[i][1];
-        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block" && btns[x][y].innerText != "yellow") {
+        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block" && btns[x][y].style.backgroundColor != "yellow") {
             btns[x][y].style.backgroundColor = "rgb(44, 139, 255)";
             btns[x][y].innerText = "";
             btns[x][y].style.width = "55px";
