@@ -95,7 +95,7 @@ async function run() {
             }
         }
     }
-
+    //go over path
     for(var i = 1; i < path.length - 1; i++){
         var x = path[i][0];
         var y = path[i][1];
@@ -109,6 +109,18 @@ async function run() {
             btns[x][y].style.width = "50px";
             btns[x][y].style.height = "50px";
         }
+        if(btns[x][y].innerText == "Block"){
+            var text = direct(path[i][0], path[i][1], path[i+1][0], path[i+1][1]);
+            btns[x][y].style.backgroundColor = "yellow";
+            btns[x][y].innerText = text;
+            btns[x][y].style.width = "55px";
+            btns[x][y].style.height = "55px";
+            await sleep(50);
+            btns[x][y].style.width = "50px";
+            btns[x][y].style.height = "50px";
+        }
+        //alert("HEY" + btns[x][y].style.backgroundColor);
+
         
     }
 }
@@ -131,6 +143,7 @@ function sleep(ms) {
 
 function djikstra() {
     // Read the grid from standard input
+    var noPaths;
     const ROWS = 9;
     const COLS = 16;
     start_x--; start_y--; end_x--; end_y--;
@@ -210,10 +223,13 @@ function djikstra() {
     // Backtrack to print the path
     x = end_x;
     y = end_y;
-    if (distmap[end_x][end_y] >= 1e8) {
+    if (distmap[end_x][end_y] >= 1e8 && noPaths) {
         alert("No possible path!");
     }
     else {
+        if(distmap[end_x][end_y] >= 1e8 && !noPaths){
+            alert("Only path is to go over blocks, here is the most optimal path");
+        }
         // console.log("The shortest path is: ");
         path.push([x, y]);
         while (x !== start_x || y !== start_y) {
@@ -267,9 +283,18 @@ async function clearPath() {
     for(var i = path.length - 1; i > -1; i--){
         var x = path[i][0];
         var y = path[i][1];
-        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block") {
+        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block" && btns[x][y].innerText != "yellow") {
             btns[x][y].style.backgroundColor = "rgb(44, 139, 255)";
             btns[x][y].innerText = "";
+            btns[x][y].style.width = "55px";
+            btns[x][y].style.height = "55px";
+            await sleep(50);
+            btns[x][y].style.width = "50px";
+            btns[x][y].style.height = "50px";
+        }
+        else if(btns[x][y].style.backgroundColor == "yellow"){
+            btns[x][y].style.backgroundColor = "red";
+            btns[x][y].innerText = "Block";
             btns[x][y].style.width = "55px";
             btns[x][y].style.height = "55px";
             await sleep(50);
