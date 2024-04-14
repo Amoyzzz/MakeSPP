@@ -89,18 +89,20 @@ async function run() {
     console.log(map);   
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 16; j++) {
-            if(btns[i][j].innerText == "Path"){
+            if(btns[i][j].style.backgroundColor == "gray"){
                 btns[i][j].style.backgroundColor = "rgb(44, 139, 255)";
                 btns[i][j].innerText = "";
             }
         }
     }
-    for(var i = 0; i < path.length; i++){
+
+    for(var i = 1; i < path.length - 1; i++){
         var x = path[i][0];
         var y = path[i][1];
         if (btns[x][y].innerText == ""){
+            var text = direct(path[i][0], path[i][1], path[i + 1][0], path[i + 1][1]);
             btns[x][y].style.backgroundColor = "gray";
-            btns[x][y].innerText = "Path";
+            btns[x][y].innerText = text;
             btns[x][y].style.width = "55px";
             btns[x][y].style.height = "55px";
             await sleep(50);
@@ -110,6 +112,23 @@ async function run() {
         
     }
 }
+
+function direct(x, y, x2, y2){
+    if(x == x2 && y < y2){
+        return "→";
+    }
+    else if(x == x2 && y > y2){
+        return "←";
+    }   
+    else if(x < x2){
+        return "↓";
+    }
+    else{
+        return "↑";
+    }
+    return "null";
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -234,7 +253,7 @@ function djikstra() {
     }
 }
 
-function clearBtn() {
+async function clearBtn() {
     for (var r = 0; r < 9; r++) {
         for (var c = 0; c < 16; c++) {
             map[r][c] = 0;
@@ -252,7 +271,7 @@ async function clearPath() {
     for(var i = path.length - 1; i > -1; i--){
         var x = path[i][0];
         var y = path[i][1];
-        if (btns[x][y].innerText == "Path"){
+        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block") {
             btns[x][y].style.backgroundColor = "rgb(44, 139, 255)";
             btns[x][y].innerText = "";
             btns[x][y].style.width = "55px";
@@ -261,6 +280,5 @@ async function clearPath() {
             btns[x][y].style.width = "50px";
             btns[x][y].style.height = "50px";
         }
-        
     }
 }
