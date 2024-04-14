@@ -116,17 +116,13 @@ async function run() {
 function direct(x, y, x2, y2){
     if(x == x2 && y < y2){
         return "→";
-    }
-    else if(x == x2 && y > y2){
+    } else if(x == x2 && y > y2){
         return "←";
-    }   
-    else if(x < x2){
+    } else if(x < x2){
         return "↓";
-    }
-    else{
+    } else {
         return "↑";
     }
-    return "null";
 }
 
 function sleep(ms) {
