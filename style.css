@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'MellowLight';
-  src: url('https://raw.githubusercontent.com/NicholasIGuess/MakeSPP/main/resources/MADEMellowPERSONALUSE-Light.woff2') format('woff2'),
-      url('https://raw.githubusercontent.com/NicholasIGuess/MakeSPP/main/resources/MADEMellowPERSONALUSE-Light.woff') format('woff');
+  src: url('resources/MADEMellowPERSONALUSE-Light.woff2') format('woff2'),
+      url('resources/MADEMellowPERSONALUSE-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -9,8 +9,8 @@
 
 @font-face {
   font-family: 'MellowMedium';
-  src: url('https://raw.githubusercontent.com/NicholasIGuess/MakeSPP/main/resources/MADEMellowPERSONALUSE-Medium.woff2') format('woff2'),
-      url('https://raw.githubusercontent.com/NicholasIGuess/MakeSPP/main/resources/MADEMellowPERSONALUSE-Medium.woff') format('woff');
+  src: url('resources/MADEMellowPERSONALUSE-Medium.woff2') format('woff2'),
+      url('resources/MADEMellowPERSONALUSE-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
