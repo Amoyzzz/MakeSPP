@@ -120,8 +120,6 @@ async function run() {
             btns[x][y].style.height = "50px";
         }
         //alert("HEY" + btns[x][y].style.backgroundColor);
-
-        
     }
 }
 
@@ -230,7 +228,6 @@ function djikstra() {
         if(distmap[end_x][end_y] >= 1e8 && !noPaths){
             alert("Only path is to go over blocks, here is the most optimal path");
         }
-        // console.log("The shortest path is: ");
         path.push([x, y]);
         while (x !== start_x || y !== start_y) {
             const prev_x = Math.floor(originmap[x][y] / COLS);
@@ -241,27 +238,8 @@ function djikstra() {
         }
         path.reverse();
         for (let i = 0; i < path.length; i++) {
-            //alert(`(${1+path[i][0]},${1+path[i][1]})`);
             map[path[i][0]][path[i][1]] = 2;
         }
-        // console.log();
-        // for(let i = 0; i < 9; i++){
-        //     for(let j = 0; j < 16; j++){
-        //         if(map[i][j] !== 1 && map[i][j] !== 2){
-        //             process.stdout.write("1 ");
-        //         }
-        //         else if(map[i][j] === 1){
-        //             process.stdout.write("0 ");
-        //         }
-        //         else{
-        //             process.stdout.write(`${map[i][j]} `);
-        //         }
-        //     }
-        //     console.log();
-        // // } 
-        // // Output the length of the shortest path
-        // console.log(`The length of the shortest path is: ${distmap[end_x][end_y]}`);
-        //alert(distmap[end_x][end_y]);
     }
 }
 
