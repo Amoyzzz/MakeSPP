@@ -1,7 +1,64 @@
 var map = [];
 var path = [];
 var btns = [];
+var latitude;
+var longitude;
 
+// Function to fetch traffic data for a specific location
+async function fetchTrafficData(latitude, longitude) {
+    const apiKey = 'XbGaeIHk36toAetcvCAj2mY2jMsHeNny';
+    const baseUrl = 'https://api.tomtom.com/traffic/services/4/';
+
+    const url = `${baseUrl}flowSegmentData/absolute/10/json?point=${latitude},${longitude}&key=${apiKey}`;
+    console.log('Fetching traffic data from:', url);
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch traffic data');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching traffic data:', error);
+        return null;
+    }
+}
+
+// Function to extract traffic flow information from data
+function getTrafficInfo(data) {
+    if (data && data.flowSegmentData) {
+        const trafficFlow = data.flowSegmentData.flowSegment;
+        const trafficAmount = trafficFlow.currentSpeed;
+        return trafficAmount;
+    } else {
+        return null;
+    }
+}
+
+// Function to get user's current location
+function getUserLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                    resolve({ latitude, longitude });
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        } else {
+            reject('Geolocation is not supported by this browser.');
+        }
+    });
+}
+
+getUserLocation();
+var data = fetchTrafficData();
+alert(getTrafficInfo(data));
 
 function initButtons() {
     btns = [];
