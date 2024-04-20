@@ -1,64 +1,46 @@
 var map = [];
 var path = [];
 var btns = [];
-var latitude;
-var longitude;
 
-// Function to fetch traffic data for a specific location
-async function fetchTrafficData(latitude, longitude) {
-    const apiKey = 'XbGaeIHk36toAetcvCAj2mY2jMsHeNny';
-    const baseUrl = 'https://api.tomtom.com/traffic/services/4/';
+// Initialize map
+const ttmap = tt.map({
+    key: 'XbGaeIHk36toAetcvCAj2mY2jMsHeNny',
+    container: 'map',
+    center: [0, 0], // Initial center (will be updated with user's location)
+    zoom: 12 // Initial zoom level
+});
 
-    const url = `${baseUrl}flowSegmentData/absolute/10/json?point=${latitude},${longitude}&key=${apiKey}`;
-    console.log('Fetching traffic data from:', url);
+let userMarker; // Declare userMarker variable
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Failed to fetch traffic data');
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching traffic data:', error);
-        return null;
-    }
+// Function to initialize the user marker
+function initializeUserMarker() {
+    userMarker = new tt.Marker().setLngLat([0, 0]).addTo(ttmap); // Initialize userMarker
 }
 
-// Function to extract traffic flow information from data
-function getTrafficInfo(data) {
-    if (data && data.flowSegmentData) {
-        const trafficFlow = data.flowSegmentData.flowSegment;
-        const trafficAmount = trafficFlow.currentSpeed;
-        return trafficAmount;
-    } else {
-        return null;
-    }
-}
-
-// Function to get user's current location
+// Function to get user's current location and center the map
 function getUserLocation() {
-    return new Promise((resolve, reject) => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    latitude = position.coords.latitude;
-                    longitude = position.coords.longitude;
-                    resolve({ latitude, longitude });
-                },
-                error => {
-                    reject(error);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                ttmap.setCenter([longitude, latitude]);
+                if (!userMarker) {
+                    initializeUserMarker(); // Initialize userMarker if not already initialized
                 }
-            );
-        } else {
-            reject('Geolocation is not supported by this browser.');
-        }
-    });
+                userMarker.setLngLat([longitude, latitude]).addTo(ttmap);
+            },
+            error => {
+                console.error('Error getting user location:', error);
+            }
+        );
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+    }
 }
 
+// Call getUserLocation to center the map at the user's current location
 getUserLocation();
-var data = fetchTrafficData();
-alert(getTrafficInfo(data));
 
 function initButtons() {
     btns = [];
