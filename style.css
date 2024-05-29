@@ -33,12 +33,6 @@ body {
   height: 100vh;
 }
 
-#map {
-  height: 600px; /* Adjust the height to make it taller */
-  width: 80%; /* Adjust the width to make it less wide */
-  margin: 0 auto; /* Center the map horizontally */
-}
-
 #grid-container {
   display: grid;
   grid-template-columns: repeat(16, 50px);
@@ -100,7 +94,7 @@ body {
   background-color: rgb(252, 240, 167);
   position: fixed;
   bottom: 0;
-  width: 12%;
+  width: 10%;
   height: 10%;
   font-size: 30px;
 }

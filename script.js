@@ -2,45 +2,6 @@ var map = [];
 var path = [];
 var btns = [];
 
-// Initialize map
-const ttmap = tt.map({
-    key: 'XbGaeIHk36toAetcvCAj2mY2jMsHeNny',
-    container: 'map',
-    center: [0, 0], // Initial center (will be updated with user's location)
-    zoom: 12 // Initial zoom level
-});
-
-let userMarker; // Declare userMarker variable
-
-// Function to initialize the user marker
-function initializeUserMarker() {
-    userMarker = new tt.Marker().setLngLat([0, 0]).addTo(ttmap); // Initialize userMarker
-}
-
-// Function to get user's current location and center the map
-function getUserLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                ttmap.setCenter([longitude, latitude]);
-                if (!userMarker) {
-                    initializeUserMarker(); // Initialize userMarker if not already initialized
-                }
-                userMarker.setLngLat([longitude, latitude]).addTo(ttmap);
-            },
-            error => {
-                console.error('Error getting user location:', error);
-            }
-        );
-    } else {
-        console.error('Geolocation is not supported by this browser.');
-    }
-}
-
-// Call getUserLocation to center the map at the user's current location
-getUserLocation();
 
 function initButtons() {
     btns = [];
@@ -159,6 +120,8 @@ async function run() {
             btns[x][y].style.height = "50px";
         }
         //alert("HEY" + btns[x][y].style.backgroundColor);
+
+        
     }
 }
 
@@ -267,6 +230,7 @@ function djikstra() {
         if(distmap[end_x][end_y] >= 1e8 && !noPaths){
             alert("Only path is to go over blocks, here is the most optimal path");
         }
+        // console.log("The shortest path is: ");
         path.push([x, y]);
         while (x !== start_x || y !== start_y) {
             const prev_x = Math.floor(originmap[x][y] / COLS);
@@ -277,8 +241,27 @@ function djikstra() {
         }
         path.reverse();
         for (let i = 0; i < path.length; i++) {
+            //alert(`(${1+path[i][0]},${1+path[i][1]})`);
             map[path[i][0]][path[i][1]] = 2;
         }
+        // console.log();
+        // for(let i = 0; i < 9; i++){
+        //     for(let j = 0; j < 16; j++){
+        //         if(map[i][j] !== 1 && map[i][j] !== 2){
+        //             process.stdout.write("1 ");
+        //         }
+        //         else if(map[i][j] === 1){
+        //             process.stdout.write("0 ");
+        //         }
+        //         else{
+        //             process.stdout.write(`${map[i][j]} `);
+        //         }
+        //     }
+        //     console.log();
+        // // } 
+        // // Output the length of the shortest path
+        // console.log(`The length of the shortest path is: ${distmap[end_x][end_y]}`);
+        //alert(distmap[end_x][end_y]);
     }
 }
 
@@ -300,7 +283,7 @@ async function clearPath() {
     for(var i = path.length - 1; i > -1; i--){
         var x = path[i][0];
         var y = path[i][1];
-        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block" && btns[x][y].style.backgroundColor != "yellow") {
+        if (btns[x][y].innerText != "Start" && btns[x][y].innerText != "End" && btns[x][y].innerText != "Block" && btns[x][y].innerText != "yellow") {
             btns[x][y].style.backgroundColor = "rgb(44, 139, 255)";
             btns[x][y].innerText = "";
             btns[x][y].style.width = "55px";
